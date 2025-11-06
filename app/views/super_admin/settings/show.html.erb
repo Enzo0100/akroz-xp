@@ -102,7 +102,6 @@
           <% if !attrs[:enabled] %>
           <div class="flex h-9 absolute top-5 items-center invisible group-hover:visible">
             <% if ChatwootApp.enterprise? %>
-              <%= render 'upgrade_button_enterprise' %>
             <% else %>
               <%= render 'upgrade_button_community' %>
             <% end %>
