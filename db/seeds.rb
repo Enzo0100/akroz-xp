@@ -17,17 +17,18 @@ unless Rails.env.production?
   installation_config.save!
   GlobalConfig.clear_cache
 
-  account = Account.create!(
-    name: 'Acme Inc'
-  )
+  account = Account.find_or_create_by!(name: 'Acme Inc')
 
-  secondary_account = Account.create!(
-    name: 'Acme Org'
-  )
+  secondary_account = Account.find_or_create_by!(name: 'Acme Org')
 
-  user = User.new(name: 'John', email: 'john@acme.inc', password: 'Password1!', type: 'SuperAdmin')
-  user.skip_confirmation!
-  user.save!
+  user = User.find_or_initialize_by(email: 'john@acme.inc')
+  if user.new_record?
+    user.name = 'John'
+    user.password = 'Password1!'
+    user.type = 'SuperAdmin'
+    user.skip_confirmation!
+    user.save!
+  end
 
   AccountUser.create!(
     account_id: account.id,
